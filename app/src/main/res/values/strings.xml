@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">cleanSweeper</string>
+    <string name="play">Play</string>
+    <string name="help">Help</string>
+    <string name="rules">Minesweeper is a game about clearing a minefield by identifying mines with flags.
+    To begin the game, click on a square. Your first click will never be on a mine. The map will be revealed
+    along with numbers on the grid. The number in a revealed square indicates the number of adjacent mines.
+    To place a flag, long click on an unrevealed square. Reveal every square not occupied by bombs to win the game.</string>
+    <string name="names">Created by Alex Weaver and Tony Tian</string>
+</resources>
