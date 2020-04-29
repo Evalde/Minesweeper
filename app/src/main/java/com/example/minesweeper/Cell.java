@@ -7,15 +7,25 @@ public class Cell {
     boolean revealed;
     int row;
     int column;
-    public Cell(int x, int y){
-        row = x;
-        column = y;
+    public Cell(){
+        row = 0;
+        column = 0;
         revealed = false;
-        Random generator = new Random();
-        int rand = generator.nextInt(10-1+1) + 1;
-        rand = rand/10;
-        if (rand>.75){
-            bomb = true;
+        bomb = false;
+    }
+
+    public void setBomb(int bomb){
+        if (bomb==1){
+            this.bomb = true;
         }
+        else this.bomb = false;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 }
