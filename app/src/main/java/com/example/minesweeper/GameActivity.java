@@ -3,6 +3,7 @@ package com.example.minesweeper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -24,7 +25,8 @@ public class GameActivity extends AppCompatActivity {
             GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
             for (int j = 0; j < width; j++) {
                 Button button = new Button(this);
-                button.setText("a");
+                //button.setBackground(R.);
+                button.setLayoutParams(new ViewGroup.LayoutParams(150, 150));
                 line.addView(button);
             }
             grid.addView(line);
