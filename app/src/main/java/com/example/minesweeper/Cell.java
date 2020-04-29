@@ -7,6 +7,9 @@ public class Cell {
     boolean revealed;
     int row;
     int column;
+    int neighborBombs;
+
+
     public Cell(){
         row = 0;
         column = 0;
@@ -27,5 +30,9 @@ public class Cell {
 
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public void setNeighborBombs(int neighborBombs) {
+        this.neighborBombs = neighborBombs;
     }
 }

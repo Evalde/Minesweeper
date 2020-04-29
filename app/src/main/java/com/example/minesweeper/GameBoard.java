@@ -2,7 +2,7 @@ package com.example.minesweeper;
 
 import java.util.Random;
 
-public class GameBoard {
+public class GameBoard extends Cell{
     public GameBoard(){
         //make 1d array for 10 bombs
         int[] buttons = new int[70];
