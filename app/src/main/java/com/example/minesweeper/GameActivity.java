@@ -19,6 +19,7 @@ public class GameActivity extends AppCompatActivity {
     GameBoard gameBoard = new GameBoard();
     Button[][] buttonGrid;
     Map<View, Integer> states;
+    int revealedEmptySpaces = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,8 @@ public class GameActivity extends AppCompatActivity {
                                     }
                                 }
                             }
-                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(GameActivity.this);
-                            alertBuilder.setTitle("Gamer Over")
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(GameActivity.this);
+                            alertBuilder.setTitle("Game Over")
                                     .setMessage("You Lose")
                                     .setPositiveButton("Again", new DialogInterface.OnClickListener() {
                                         @Override
@@ -76,7 +77,9 @@ public class GameActivity extends AppCompatActivity {
                                             Intent intent = new Intent(GameActivity.this, MainActivity.class);
                                             startActivity(intent);
                                         }
-                                    });
+                                    })
+                                    .setCancelable(false);
+                            alertBuilder.show();
                         }
                         else if(gameBoard.boardArray[iindex][jindex].bomb==false){
                             view.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent));
@@ -85,6 +88,27 @@ public class GameActivity extends AppCompatActivity {
                             }
                             else{
                                 //TODO: reveal non-bomb spaces around it
+                            }
+                            revealedEmptySpaces--;
+                            if(revealedEmptySpaces==0){
+                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(GameActivity.this);
+                                alertBuilder.setTitle("Game Over")
+                                        .setMessage("You Win")
+                                        .setPositiveButton("Again", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                GameActivity.this.recreate();
+                                            }
+                                        })
+                                        .setNegativeButton("Menu", new DialogInterface.OnClickListener(){
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i){
+                                                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        })
+                                        .setCancelable(false);
+                                alertBuilder.show();
                             }
                         }
                     }
