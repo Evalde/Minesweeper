@@ -8,9 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,7 @@ public class GameActivity extends AppCompatActivity {
     Button[][] buttonGrid;
     Map<View, Integer> states;
     int revealedEmptySpaces = 60;
+    int bombs = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,6 @@ public class GameActivity extends AppCompatActivity {
         states = new HashMap<>();
         for (int i = 0; i < height; i++) {
             LinearLayout line = new LinearLayout(this);
-            GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
             for (int j = 0; j < width; j++) {
                 Button button = new Button(this);
                 line.addView(button);
@@ -45,6 +47,13 @@ public class GameActivity extends AppCompatActivity {
             }
             grid.addView(line);
         }
+        LinearLayout.LayoutParams para = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        para.setMargins(10,0,0,0);
+        final TextView bombCount = new TextView(this);
+        bombCount.setText(Integer.toString(bombs));
+        bombCount.setTextSize(45);
+        bombCount.setLayoutParams(para);
+        grid.addView(bombCount);
         for (int i = 0; i < buttonGrid.length; i++) {
             for (int j = 0; j < buttonGrid[i].length; j++) {
                 Button button = buttonGrid[i][j];
@@ -53,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(gameBoard.boardArray[iindex][jindex].bomb==true){
+                        if(gameBoard.boardArray[iindex][jindex].bomb==true && gameBoard.boardArray[iindex][jindex].flag==false){
                             view.setBackgroundResource(R.drawable.bomb);
                             for (int i = 0; i < 7; i++) {
                                 for (int j = 0; j < 10; j++) {
@@ -81,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
                                     .setCancelable(false);
                             alertBuilder.show();
                         }
-                        else if(gameBoard.boardArray[iindex][jindex].bomb==false && gameBoard.boardArray[iindex][jindex].revealed==false){
+                        else if(gameBoard.boardArray[iindex][jindex].bomb==false && gameBoard.boardArray[iindex][jindex].revealed==false && gameBoard.boardArray[iindex][jindex].flag==false){
                             gameBoard.boardArray[iindex][jindex].revealed=true;
                             view.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent));
                             if(gameBoard.boardArray[iindex][jindex].neighborBombs>0){
@@ -140,7 +149,20 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        v.setBackgroundResource(R.drawable.map);
+                        if(gameBoard.boardArray[iindex][jindex].revealed==false && gameBoard.boardArray[iindex][jindex].flag==false){
+                            v.setBackgroundResource(R.drawable.map);
+                            gameBoard.boardArray[iindex][jindex].flag=true;
+                            bombs--;
+                            bombCount.setText(Integer.toString(bombs));
+                        }
+                        else if(gameBoard.boardArray[iindex][jindex].revealed==false && gameBoard.boardArray[iindex][jindex].flag==true){
+                            v.setBackgroundResource(R.color.colorPrimary);
+                            gameBoard.boardArray[iindex][jindex].flag=false;
+                            if(bombs<10){
+                                bombs++;
+                                bombCount.setText(Integer.toString(bombs));
+                            }
+                        }
                         return true;
                     }
                 });

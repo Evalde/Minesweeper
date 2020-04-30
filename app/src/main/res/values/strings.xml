@@ -7,4 +7,5 @@
     along with numbers on the grid. The number in a revealed square indicates the number of adjacent mines.
     To place a flag, long click on an unrevealed square. Reveal every square not occupied by bombs to win the game.</string>
     <string name="names">Created by Alex Weaver and Tony Tian</string>
+    <string name="tenbombs">10</string>
 </resources>

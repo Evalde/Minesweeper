@@ -5,6 +5,7 @@ import java.util.Random;
 public class Cell {
     boolean bomb;
     boolean revealed;
+    boolean flag;
     int row;
     int column;
     int neighborBombs;
@@ -16,6 +17,7 @@ public class Cell {
         neighborBombs = 0;
         revealed = false;
         bomb = false;
+        flag = false;
     }
 
     public void setBomb(int bomb){
