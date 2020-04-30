@@ -13,6 +13,7 @@ public class Cell {
     public Cell(){
         row = 0;
         column = 0;
+        neighborBombs = 0;
         revealed = false;
         bomb = false;
     }
@@ -32,14 +33,6 @@ public class Cell {
         this.column = column;
     }
 
-    public void setNeighborBombs(int neighborBombs) {
-        this.neighborBombs = neighborBombs;
-    }
-
-    public void addNeightborBomb(){
-        this.neighborBombs++;
-    }
-
     public int getRow() {
         return row;
     }
@@ -47,4 +40,6 @@ public class Cell {
     public int getColumn() {
         return column;
     }
+
+
 }

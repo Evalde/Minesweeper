@@ -44,5 +44,29 @@ public class GameBoard extends Cell{
             }
         }
         */
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 10; j++) {
+                Cell current = boardArray[i][j];
+                current.neighborBombs += bombAtLocation(i-1, j-1);
+                current.neighborBombs += bombAtLocation(i-1, j);
+                current.neighborBombs += bombAtLocation(i-1, j+1);
+                current.neighborBombs += bombAtLocation(i, j-1);
+                current.neighborBombs += bombAtLocation(i, j+1);
+                current.neighborBombs += bombAtLocation(i+1, j+1);
+                current.neighborBombs += bombAtLocation(i+1, j);
+                current.neighborBombs += bombAtLocation(i+1, j-1);
+            }
+        }
+
+
+    }
+
+    private int bombAtLocation(int i, int j) {
+        if (i > 0 && i < 7 && j > 0 && j < 10 && boardArray[i][j].bomb == true) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
