@@ -35,4 +35,16 @@ public class Cell {
     public void setNeighborBombs(int neighborBombs) {
         this.neighborBombs = neighborBombs;
     }
+
+    public void addNeightborBomb(){
+        this.neighborBombs++;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
 }
