@@ -4,8 +4,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import java.util.Map;
 
 public class GameActivity extends AppCompatActivity {
     GameBoard gameBoard = new GameBoard();
+    MediaPlayer mp;
     Button[][] buttonGrid;
     Map<View, Integer> states;
     int revealedEmptySpaces = 60;
@@ -28,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        mp = MediaPlayer.create(this, R.raw.explosion);
         LinearLayout grid = (LinearLayout) findViewById(R.id.columns);
         int width = 7;
         int height = 10;
@@ -41,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(125, 125);
                 params.setMargins(15, 15, 15, 15);
+                button.setSoundEffectsEnabled(false);
                 button.setLayoutParams(params);
                 buttonGrid[j][i] = button;
                 states.put(button, 0);
@@ -64,6 +70,7 @@ public class GameActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         if(gameBoard.boardArray[iindex][jindex].bomb==true && gameBoard.boardArray[iindex][jindex].flag==false){
                             view.setBackgroundResource(R.drawable.bomb);
+                            mp.start();
                             for (int i = 0; i < 7; i++) {
                                 for (int j = 0; j < 10; j++) {
                                     if (gameBoard.boardArray[i][j].bomb == true) {
