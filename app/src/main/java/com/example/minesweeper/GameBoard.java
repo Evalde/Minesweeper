@@ -31,20 +31,6 @@ public class GameBoard extends Cell{
                 k++;
             }
         }
-        //TODO: calculate neighbor bombs
-        /*for(int x = 0; x < 7; x++) {
-            for(int y = 0; y < 10; y++) {
-                for(int i = boardArray[x][y].getRow() - 1; i <= boardArray[x][y].getRow() + 1; i++) {
-                    for(int j = boardArray[x][y].getColumn() - 1; j <= boardArray[x][y].getColumn() + 1; j++) {
-                        if(i >= 0 && i < this.grid.length && j >= 0 && j < this.grid.length) {
-                            boardArray[x][y].addNeightborBomb();
-                        }
-                    }
-                }
-            }
-        }
-        */
-
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 10; j++) {
                 Cell current = boardArray[i][j];
@@ -63,7 +49,7 @@ public class GameBoard extends Cell{
     }
 
     private int bombAtLocation(int i, int j) {
-        if (i > 0 && i < 7 && j > 0 && j < 10 && boardArray[i][j].bomb == true) {
+        if (i >= 0 && i < 7 && j >= 0 && j < 10 && boardArray[i][j].bomb == true) {
             return 1;
         } else {
             return 0;
