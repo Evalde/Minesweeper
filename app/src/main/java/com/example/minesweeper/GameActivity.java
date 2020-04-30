@@ -86,8 +86,31 @@ public class GameActivity extends AppCompatActivity {
                             if(gameBoard.boardArray[iindex][jindex].neighborBombs>0){
                                 buttonGrid[iindex][jindex].setText(Integer.toString(gameBoard.boardArray[iindex][jindex].neighborBombs));
                             }
-                            else{
-                                //TODO: reveal non-bomb spaces around it
+                            else if(gameBoard.boardArray[iindex][jindex].neighborBombs==0){
+                                if(iindex-1>=0 && iindex-1<7 && jindex-1>=0 && jindex-1<10){
+                                    buttonGrid[iindex-1][jindex-1].performClick();
+                                }
+                                if(iindex-1>=0 && iindex-1<7 && jindex>=0 && jindex<10){
+                                    buttonGrid[iindex-1][jindex].performClick();
+                                }
+                                if(iindex-1>=0 && iindex-1<7 && jindex+1>=0 && jindex+1<10){
+                                    buttonGrid[iindex-1][jindex+1].performClick();
+                                }
+                                if(iindex>=0 && iindex<7 && jindex-1>=0 && jindex-1<10){
+                                    buttonGrid[iindex][jindex-1].performClick();
+                                }
+                                if(iindex>=0 && iindex<7 && jindex+1>=0 && jindex+1<10){
+                                    buttonGrid[iindex][jindex+1].performClick();
+                                }
+                                if(iindex+1>=0 && iindex+1<7 && jindex+1>=0 && jindex+1<10){
+                                    buttonGrid[iindex+1][jindex+1].performClick();
+                                }
+                                if(iindex+1>=0 && iindex+1<7 && jindex>=0 && jindex<10){
+                                    buttonGrid[iindex+1][jindex].performClick();
+                                }
+                                if(iindex+1>=0 && iindex+1<7 && jindex-1>=0 && jindex-1<10){
+                                    buttonGrid[iindex+1][jindex-1].performClick();
+                                }
                             }
                             revealedEmptySpaces--;
                             if(revealedEmptySpaces==0){
