@@ -4,16 +4,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.AudioManager;
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,11 +26,14 @@ public class GameActivity extends AppCompatActivity {
     Map<View, Integer> states;
     int revealedEmptySpaces = 60;
     int bombs = 10;
+    boolean hasPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        final Handler h = new Handler();
         mp = MediaPlayer.create(this, R.raw.explosion);
         LinearLayout grid = (LinearLayout) findViewById(R.id.columns);
         int width = 7;
@@ -60,6 +62,11 @@ public class GameActivity extends AppCompatActivity {
         bombCount.setTextSize(45);
         bombCount.setLayoutParams(para);
         grid.addView(bombCount);
+        final TextView timeCount = new TextView(this);
+        timeCount.setText("0");
+        timeCount.setTextSize(45);
+        timeCount.setLayoutParams(para);
+        grid.addView(timeCount);
         for (int i = 0; i < buttonGrid.length; i++) {
             for (int j = 0; j < buttonGrid[i].length; j++) {
                 Button button = buttonGrid[i][j];
@@ -68,9 +75,27 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(hasPressed==false){
+                            final Runnable r = new Runnable() {
+                                int count = 0;
+                                @Override
+                                public void run() {
+                                    count++;
+                                    if(count>60){
+                                        String str = String.format("%02d", count % 60);
+                                        timeCount.setText(Integer.toString(count/60)+":"+ str);
+                                    }
+                                    else timeCount.setText(Integer.toString(count));
+                                    h.postDelayed(this, 1000); //ms
+                                }
+                            };
+                            h.postDelayed(r, 1000);
+                            hasPressed=true;
+                        }
                         if(gameBoard.boardArray[iindex][jindex].bomb==true && gameBoard.boardArray[iindex][jindex].flag==false){
                             view.setBackgroundResource(R.drawable.bomb);
                             mp.start();
+                            h.removeCallbacksAndMessages(null);
                             for (int i = 0; i < 7; i++) {
                                 for (int j = 0; j < 10; j++) {
                                     if (gameBoard.boardArray[i][j].bomb == true) {
@@ -80,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
                             }
                             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(GameActivity.this);
                             alertBuilder.setTitle("Game Over")
-                                    .setMessage("You Lose")
+                                    .setMessage("You Lost")
                                     .setPositiveButton("Again", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -131,9 +156,10 @@ public class GameActivity extends AppCompatActivity {
                             }
                             revealedEmptySpaces--;
                             if(revealedEmptySpaces==0){
+                                h.removeCallbacksAndMessages(null);
                                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(GameActivity.this);
-                                alertBuilder.setTitle("Game Over")
-                                        .setMessage("You Win")
+                                alertBuilder.setTitle("Victory")
+                                        .setMessage("Your time: "  + timeCount.getText())
                                         .setPositiveButton("Again", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
