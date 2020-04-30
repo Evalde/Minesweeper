@@ -81,7 +81,8 @@ public class GameActivity extends AppCompatActivity {
                                     .setCancelable(false);
                             alertBuilder.show();
                         }
-                        else if(gameBoard.boardArray[iindex][jindex].bomb==false){
+                        else if(gameBoard.boardArray[iindex][jindex].bomb==false && gameBoard.boardArray[iindex][jindex].revealed==false){
+                            gameBoard.boardArray[iindex][jindex].revealed=true;
                             view.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent));
                             if(gameBoard.boardArray[iindex][jindex].neighborBombs>0){
                                 buttonGrid[iindex][jindex].setText(Integer.toString(gameBoard.boardArray[iindex][jindex].neighborBombs));
